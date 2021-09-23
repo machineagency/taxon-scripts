@@ -25,31 +25,31 @@ interface Dimensions {
     length: number
 }
 
-interface Position {
+interface TPosition {
     x: number,
     y: number,
     z: number
 }
 
 interface Metrics {
-    workEnvelope: { shape: string, dimensions: Dimensions, position: Position },
-    footprint: { dimensions: Dimensions },
+    workEnvelope: { shape: string, dimensions: Dimensions, position: TPosition },
+    footprint: { width: number, length: number },
     manufacturingStrategies: string[],
     materialCompatibility: { include: string[], exclude: string[] },
-    metafeatures: { vendorInfo: { cost: number, website: string } }
+    metafeatures: { vendorInfo: { price: number, website: string } }
 }
 
-const fs = (require as any)('fs');
+const fs = require('fs');
 
-const loadJsonAsObj = (filename: string) : Object => {
+const loadJsonAsObj = (filename: string) : FlatEntry[] => {
     let fileStr = fs.readFileSync('./printers.json');
-    let entries = JSON.parse(fileStr);
-    entries = entries.forEach(entry => {
-        entry.manufacturingStrategies = entry.manufacturingStrategies.split(',');
-    });
+    let flatEntries = JSON.parse(fileStr) as FlatEntry[];
+    return flatEntries;
 };
 
 const buildEntry = (fe: FlatEntry) : Entry => {
+    let allStrategies = fe.strategies.split(',')
+                            .concat(fe.technologies.split(', '));
     let newEntry : Entry = {
         name: fe.printerName,
         metrics: {
@@ -61,27 +61,24 @@ const buildEntry = (fe: FlatEntry) : Entry => {
                     height: parseInt(fe.we_height.replace('mm', ''))
                 },
                 position: {
-                    x: entry.metrics.workEnvelope.position.x,
-                    y: entry.metrics.workEnvelope.position.y,
-                    z: entry.metrics.workEnvelope.position.z
+                    x: 0,
+                    y: 0,
+                    z: 0
                 }
             },
             footprint: {
-                dimensions: {
-                    width: entry.metrics.footprint.dimensions.width,
-                    length: entry.metrics.footprint.dimensions.length,
-                    height: entry.metrics.footprint.dimensions.height
-                }
+                width: parseInt(fe.fp_width.replace('mm', '')),
+                length: parseInt(fe.fp_height.replace('mm', '')),
             },
-            manufacturingStrategies: entry.metrics.manufacturingStrategies,
+            manufacturingStrategies: allStrategies,
             materialCompatibility: {
-                include: [],
-                exclude: []
+                include: fe.mc_include.split(', '),
+                exclude: fe.mc_exclude.split(', ')
             },
             metafeatures: {
                 vendorInfo: {
-                    price: 42,
-                    website: 'foo'
+                    price: parseInt(fe.price.replace('$', '')) || 0,
+                    website: fe.link
                 }
             }
         }
@@ -89,28 +86,19 @@ const buildEntry = (fe: FlatEntry) : Entry => {
     return newEntry;
 };
 
-const transformEntireObj = (topLevelObject: Object) : Object => {
-    let newArray = [];
+const transformFlatEntries = (flatEntries: FlatEntry[]) : Entry[] => {
+    return flatEntries.map(entry => buildEntry(entry));
 };
 
 const saveJsonObj = (jsonObj: Object) => {
-    fs.open('transformed-printer.json', 'w', (err, fd) => {
-        if (err) {
-            console.error(err);
-        }
-        else {
-            const str = JSON.stringify(jsonObj, undefined, 2);
-            fd.write(str).then((bytesWritten, buffer) => {
-                console.log(`Wrote ${bytesWritten} bytes`);
-            });
-        }
-    });
+    const jsonStr = JSON.stringify(jsonObj, undefined, 2);
+    fs.writeFileSync('transformed-printers.json', jsonStr);
 }
 
 const main = () => {
-    const oldJson = loadJsonAsObj('');
-    const newJson = transformEntireObj(oldJson);
-    saveJsonObj(newJson);
+    const flatEntries = loadJsonAsObj('');
+    const entries = transformFlatEntries(flatEntries);
+    saveJsonObj(entries);
 };
 
 main();
