@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/machineagency/taxon-scripts/issues"
   },
-  "homepage": "https://github.com/machineagency/taxon-scripts#readme"
+  "homepage": "https://github.com/machineagency/taxon-scripts#readme",
+  "dependencies": {
+    "@types/node": "^16.9.6"
+  }
 }
