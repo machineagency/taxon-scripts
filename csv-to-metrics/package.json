@@ -1,0 +1,19 @@
+{
+  "name": "csv-to-metrics",
+  "version": "1.0.0",
+  "description": "Converts a csv to a metrics JSON",
+  "main": "printer-transform.js",
+  "scripts": {
+    "test": "node printer-transform.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/machineagency/taxon-scripts.git"
+  },
+  "author": "Jasper Tran O'Leary",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/machineagency/taxon-scripts/issues"
+  },
+  "homepage": "https://github.com/machineagency/taxon-scripts#readme"
+}
