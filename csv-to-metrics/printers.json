@@ -1,20 +1,5 @@
 [
   {
-    "printerName": "Makerbot method",
-    "link": "https://www.makerbot.com/3d-printers/method/",
-    "price": "$3,999.00",
-    "we_shape": "box",
-    "we_width": "190mm",
-    "we_height": "196mm",
-    "we_length": "190mm",
-    "mc_include": "plastic, metal, carbon fiber",
-    "mc_exclude": "wood",
-    "fp_width": "413mm",
-    "fp_height": "437mm",
-    "strategies": "additive",
-    "technologies": "FDM"
-  },
-  {
     "printerName": "Makerbot sketch",
     "link": "https://www.makerbot.com/3d-printers/sketch-classroom/",
     "price": "$1,199",
@@ -60,21 +45,6 @@
     "technologies": "FDM"
   },
   {
-    "printerName": "Prusa i3 mk3",
-    "link": "https://shop.prusa3d.com/en/3d-printers/180-original-prusa-i3-mk3s-kit.html",
-    "price": "$749",
-    "we_shape": "box",
-    "we_width": "210mm",
-    "we_height": "250mm",
-    "we_length": "210mm",
-    "mc_include": "PLA, PETG, ASA, ABS, PC (Polycarbonate), CPE, PVA/BVOH, PVB, HIPS, PP (Polypropylene), Flex, nGen, Nylon, Carbon filled, Woodfill, and others",
-    "mc_exclude": "",
-    "fp_width": "500mm",
-    "fp_height": "550mm",
-    "strategies": "additive",
-    "technologies": "FDM"
-  },
-  {
     "printerName": "Prusa mini",
     "link": "https://www.prusa3d.com/original-prusa-mini/",
     "price": "$349",
@@ -86,21 +56,6 @@
     "mc_exclude": "",
     "fp_width": "380mm",
     "fp_height": "330mm",
-    "strategies": "additive",
-    "technologies": "FDM"
-  },
-  {
-    "printerName": "Ultimaker s5",
-    "link": "https://ultimaker.com/3d-printers/ultimaker-s5",
-    "price": "Apparently I have to contact them and request a quote?",
-    "we_shape": "box",
-    "we_width": "330mm",
-    "we_height": "240mm",
-    "we_length": "300mm",
-    "mc_include": "PLA, Tough PLA, PETG, ABS, CPE, NYLON, CPE+, PC, TPU95A, PP, PVA",
-    "mc_exclude": "",
-    "fp_width": "780mm",
-    "fp_height": "585mm",
     "strategies": "additive",
     "technologies": "FDM"
   },
