@@ -96,7 +96,7 @@ const transformFlatEntries = (flatEntries: FlatEntry[]) : Entry[] => {
 };
 
 const toSnakeCase = (original: string) : string => {
-    return original.toLowerCase().replace(/\s/g, '_');
+    return original.toLowerCase().replace(/\s/g, '-');
 };
 
 const saveEntriesAsFiles = (entries: Entry[]) => {
