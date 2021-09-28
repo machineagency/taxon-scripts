@@ -67,7 +67,7 @@ const buildEntry = (fe: FlatEntry) : Entry => {
                 },
                 position: {
                     x: 0,
-                    y: 0,
+                    y: parseInt(fe.we_height.replace('mm', '')) / 2 || 0,
                     z: 0
                 }
             },
