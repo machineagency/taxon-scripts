@@ -51,14 +51,14 @@ const buildEntry = (fe: FlatEntry) : Entry => {
     let allStrategies = fe.strategies.split(',')
                             .concat(fe.technologies.split(', '));
     let newEntry : Entry = {
-        name: fe.printerName,
+        name: toSnakeCase(fe.printerName),
         metrics: {
             workEnvelope: {
-                shape: fe.we_shape,
+                shape: fe.we_shape.toLowerCase(),
                 dimensions: {
-                    width: parseInt(fe.we_width.replace('mm', '')),
-                    length: parseInt(fe.we_length.replace('mm', '')),
-                    height: parseInt(fe.we_height.replace('mm', ''))
+                    width: parseInt(fe.we_width.replace('mm', '')) || 0,
+                    length: parseInt(fe.we_length.replace('mm', '')) || 0,
+                    height: parseInt(fe.we_height.replace('mm', '')) || 0
                 },
                 position: {
                     x: 0,
@@ -67,8 +67,8 @@ const buildEntry = (fe: FlatEntry) : Entry => {
                 }
             },
             footprint: {
-                width: parseInt(fe.fp_width.replace('mm', '')),
-                length: parseInt(fe.fp_height.replace('mm', '')),
+                width: parseInt(fe.fp_width.replace('mm', '')) || 0,
+                length: parseInt(fe.fp_height.replace('mm', '')) || 0,
             },
             manufacturingStrategies: allStrategies,
             materialCompatibility: {
@@ -90,15 +90,25 @@ const transformFlatEntries = (flatEntries: FlatEntry[]) : Entry[] => {
     return flatEntries.map(entry => buildEntry(entry));
 };
 
-const saveJsonObj = (jsonObj: Object) => {
-    const jsonStr = JSON.stringify(jsonObj, undefined, 2);
-    fs.writeFileSync('transformed-printers.json', jsonStr);
-}
+const toSnakeCase = (original: string) : string => {
+    return original.toLowerCase().replace(/\s/g, '_');
+};
+
+const saveEntriesAsFiles = (entries: Entry[]) => {
+    entries.forEach((entry) => {
+        const jsonStr = JSON.stringify(entry, undefined, 2);
+        fs.writeFile(entry.name, jsonStr, (err: Error) => {
+            if (err) {
+                console.error(err);
+            }
+        });
+    });
+};
 
 const main = () => {
     const flatEntries = loadJsonAsObj('');
     const entries = transformFlatEntries(flatEntries);
-    saveJsonObj(entries);
+    saveEntriesAsFiles(entries);
 };
 
 main();
