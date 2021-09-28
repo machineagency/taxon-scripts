@@ -16,7 +16,11 @@ interface FlatEntry {
 
 interface Entry {
     name: string,
-    metrics: Metrics
+    metrics: Metrics,
+    blocks: Block[]
+}
+
+interface Block {
 }
 
 interface Dimensions {
@@ -52,6 +56,7 @@ const buildEntry = (fe: FlatEntry) : Entry => {
                             .concat(fe.technologies.split(', '));
     let newEntry : Entry = {
         name: toSnakeCase(fe.printerName),
+        blocks: [] as Block[],
         metrics: {
             workEnvelope: {
                 shape: fe.we_shape.toLowerCase(),
