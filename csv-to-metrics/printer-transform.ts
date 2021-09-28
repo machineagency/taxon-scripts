@@ -100,9 +100,10 @@ const toSnakeCase = (original: string) : string => {
 };
 
 const saveEntriesAsFiles = (entries: Entry[]) => {
+    let path = './printers/';
     entries.forEach((entry) => {
         const jsonStr = JSON.stringify(entry, undefined, 2);
-        fs.writeFile(entry.name, jsonStr, (err: Error) => {
+        fs.writeFile(`${path}${entry.name}.json`, jsonStr, (err: Error) => {
             if (err) {
                 console.error(err);
             }
